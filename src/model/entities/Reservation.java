@@ -8,6 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import model.exception.DomainException;
+
 public class Reservation {
 	
 	private Integer roomNumber;
@@ -25,7 +27,10 @@ public class Reservation {
 		
 	}
 
-	public Reservation(int roomNumber, Date checkIn, Date checkOut) {
+	public Reservation(int roomNumber, Date checkIn, Date checkOut) throws DomainException {
+		if(!checkOut.after(checkIn)) {
+			throw new DomainException("Error in reservation: check-out data must be after check-in date");
+		}
 		this.roomNumber = roomNumber;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
@@ -53,19 +58,17 @@ public class Reservation {
 		
 	}
 	
-	public String upDates(Date checkin, Date checkout) {
+	public void upDates(Date checkin, Date checkout) throws DomainException {
 		//Solução 2 (ruim): método retornando string (Linguagem C)
 		Date now = new Date();
-		if(checkIn.before(now) || checkOut.before(now)){
-			return "Error in reservation: Reservation dates must be future dates";
+		if(checkIn.before(now) || checkOut.before(now)) {
+			throw new DomainException("Error in reservation: Reservation dates must be future dates");
 		}
 		if(!checkOut.after(checkIn)) {
-			return "Error in reservation: check-out data must be after check-in date";
-		}
-		
+			throw new DomainException("Error in reservation: check-out data must be after check-in date");
+		}		
 		this.checkIn = checkin;
 		this.checkOut = checkout;
-		return null;
 	}
 	
 	@Override

@@ -53,9 +53,19 @@ public class Reservation {
 		
 	}
 	
-	public void upDates(Date checkin, Date checkout) {
+	public String upDates(Date checkin, Date checkout) {
+		//Solução 2 (ruim): método retornando string (Linguagem C)
+		Date now = new Date();
+		if(checkIn.before(now) || checkOut.before(now)){
+			return "Error in reservation: Reservation dates must be future dates";
+		}
+		if(!checkOut.after(checkIn)) {
+			return "Error in reservation: check-out data must be after check-in date";
+		}
+		
 		this.checkIn = checkin;
 		this.checkOut = checkout;
+		return null;
 	}
 	
 	@Override

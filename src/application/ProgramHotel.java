@@ -30,6 +30,12 @@ public class ProgramHotel {
 		 * --------------------
 		 * +duration():Integer
 		 * +upDates(checkin:Date,checkout:Date):void
+		 * 
+		 * Solução 1 (muito ruim): lógica de validação no programa principal
+		 * Solução 2 (ruim): método retornando string (Linguagem C)
+		 * Solução 3 (boa): tratamento de exceções
+		 * 
+		 *  
 		 */
 		
 		
@@ -44,8 +50,8 @@ public class ProgramHotel {
 		System.out.print("Check-on date (dd/MM/yyyy): ");
 		Date checkOut = sdf.parse(sc.next());
 		
-		Date now = new Date();
 		
+		Date now = new Date();
 		if(checkIn.before(now) || checkOut.before(now)){
 			System.out.println("Error in reservation: Reservation dates must be future dates");
 		}else if(!checkOut.after(checkIn)) {
@@ -61,7 +67,7 @@ public class ProgramHotel {
 			System.out.print("Check-on date (dd/MM/yyyy): ");
 			checkOut = sdf.parse(sc.next());
 			
-			// Bad Actualization 
+			/* Bad Actualization 
 			if(checkIn.before(now) || checkOut.before(now)){
 				System.out.println("Error in reservation: Reservation dates for update must be future dates");
 			}else if(!checkOut.after(checkIn)) {
@@ -69,6 +75,16 @@ public class ProgramHotel {
 			}else {
 				reservation.upDates(checkIn, checkOut);
 				System.out.println("Reservation: " + reservation);
+			}
+			*/
+			
+			//Solução 1 (muito ruim): lógica de validação no programa principal
+			String error = reservation.upDates(checkIn, checkOut);
+			if(error != null) {
+				System.out.println("Error in reservation: " + error);
+			}
+			else {
+				System.out.println("Reservation " + reservation);
 			}
 		}
 	
